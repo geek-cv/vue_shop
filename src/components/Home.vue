@@ -17,7 +17,9 @@
         <el-menu background-color="#333744" text-color="#fff" active-text-color="#409eff"
         :unique-opened="true"
         :collapse="isCollapse"
-        :collapse-transition="false">
+        :collapse-transition="false"
+        :router="true"
+        :default-active="activePath">
           <!-- 一级菜单 -->
           <!-- id是数值 加个空号转变为字符串 -->
           <el-submenu :index="item.id + ''" v-for="item in menulist" :key="item.id">
@@ -29,8 +31,8 @@
               <span>{{item.authName}}</span>
             </template>
             <!-- 二级菜单 -->
-            <el-menu-item :index="subItem.id + ''" v-for="subItem in item.children"
-            :key="subItem.id">
+            <el-menu-item :index="'/' + subItem.path + ''" v-for="subItem in item.children"
+            :key="subItem.id" @click="saveNavState('/' + subItem.path)">
               <template slot="title">
               <i class="el-icon-menu"></i>
               <span>{{subItem.authName}}</span>
@@ -39,8 +41,11 @@
           </el-submenu>
         </el-menu>
       </el-aside>
-      <!-- 右侧内容 -->
-      <el-main>Main</el-main>
+      <!-- 右侧内容主体 -->
+      <el-main>
+        <!-- 路由占位符 -->
+        <router-view></router-view>
+      </el-main>
     </el-container>
   </el-container>
 </template>
@@ -58,11 +63,14 @@ export default {
         102: 'iconfont icon-danju',
         145: 'iconfont icon-baobiao'
       },
-      isCollapse: false
+      isCollapse: false,
+      // 被激活的链接地址
+      activePath: ''
     }
   },
   created () {
     this.getMenuList()
+    this.activePath = window.sessionStorage.getItem('activePath')
   },
   methods: {
     logout () {
@@ -79,6 +87,11 @@ export default {
     // 点击按钮，切换菜单折叠与展开
     toggleCollapse () {
       this.isCollapse = !this.isCollapse
+    },
+    // 保存链接激活状态
+    saveNavState (activePath) {
+      window.sessionStorage.setItem('activePath', activePath)
+      this.activePath = activePath
     }
   }
 }
