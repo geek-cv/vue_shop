@@ -33,3 +33,9 @@ body,
 .el-cascader-panel {
     height: 200px;
 }
+.steps {
+    margin: 15xp 0;
+}
+.el-step__title {
+    font-size: 13px;
+}
