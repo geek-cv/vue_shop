@@ -7,6 +7,12 @@ import './assets/fonts/iconfont.css'
 // 导入全局样式表
 import './assets/css/global.css'
 import TreeTable from 'vue-table-with-tree-grid'
+// 导入富文本编辑器
+import VueQuillEditor from 'vue-quill-editor'
+// 导入富文本编辑器样式
+import 'quill/dist/quill.core.css' // import styles
+import 'quill/dist/quill.snow.css' // for snow theme
+import 'quill/dist/quill.bubble.css' // for bubble theme
 
 import axios from 'axios'
 // 配置请求的根路径
@@ -20,6 +26,8 @@ Vue.prototype.$http = axios
 Vue.config.productionTip = false
 
 Vue.component('tree-table', TreeTable)
+// 将富文本编辑器注册为全局可用组件
+Vue.use(VueQuillEditor)
 Vue.filter('dateFormat', function (originval) {
   const dt = new Date(originval)
 
